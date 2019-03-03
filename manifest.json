@@ -1,0 +1,15 @@
+{
+    "name": "IMDB movie downloader",
+    "version": "1.0",
+    "description": "Add download button to IMDB movies pages",
+    "content_scripts": [
+        {
+          "matches": ["https://*.imdb.com/title/*"],
+          "js": ["imdb-movie-downloader.js"]
+        }
+    ],
+    "permissions": [
+      "https://yts.am/api/*"
+    ],
+    "manifest_version": 2
+}

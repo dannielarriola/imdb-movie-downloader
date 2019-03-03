@@ -1,0 +1,22 @@
+div#imdb-movie-downloader {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    font-family: sans-serif;
+    /* font-weight: 800; */
+    text-align: center;
+    /* color: white; */
+    #imd-action-button {
+        text-align: center;
+        text-transform: uppercase;
+        background: linear-gradient(to right, rgb(142, 134, 132) 0%, rgb(27, 26, 26) 100%);
+        color: white;
+        font-weight: 800;
+        padding: 10px;
+        cursor: pointer;
+    }
+
+    #imd-torrent-container {
+        display: none;
+    }
+}
