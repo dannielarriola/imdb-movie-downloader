@@ -3,12 +3,64 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import "./main.scss";
 
-// Function component definition
+/**
+ * Main component
+ *
+ * @param {*} props
+ * @returns
+ */
 function ImdbDownload(props) {
     // React hooks
     const [visible, setVisible] = useState(false);
+
+    let torrents = <></>;
+    if (visible) {
+        torrents = props.data.torrents.map((torrent, index) => {
+            return (
+                <div className="imd-torrent-element" key={index}>
+                    <a href={torrent.url}>{getQuality(torrent.quality)}</a>
+                </div>
+            )
+        })
+    }
+
+    /**
+     * Return standard quality string
+     *
+     * @param {*} quality
+     */
+    function getQuality(quality) {
+        switch (quality) {
+            case "720p":
+                quality = "HD";
+                break;
+            case "1080p":
+                quality = "FULL HD"
+                break;        
+            default:
+                break;
+        }
+        return quality;
+    }
+
+    /**
+     * Show and hide links
+     */
+    function handleClick() {
+        setVisible(visible => !visible);
+    }
+
+    
     return (
-        <h1>Hello World!</h1>
+        <div>
+            <div id="imd-torrent-container">
+                {torrents}
+            </div>
+            <div id="imd-action-button" onClick={handleClick}>
+                Download Movie
+            </div>
+            
+        </div>
     );
 }
 
@@ -23,16 +75,19 @@ if (imdbTitle) {
     // Exact imdb code
     let imdbCode = imdbTitle[0].substring(0, imdbTitle[0].length - 1);
 
-    // Add main element
-    let main = document.createElement("div");
-    main.id = "imdb-movie-downloader";
-    document.body.appendChild(main);
 
-    // render de App component
-    ReactDOM.render(
-        <ImdbDownload imdbCode={imdbCode} />,
-        document.getElementById(main.id)
-    );
+    fetchMovie(imdbCode).then((data) => {
+        // Add main element
+        let main = document.createElement("div");
+        main.id = "imdb-movie-downloader";
+        document.body.appendChild(main);
+
+        // render App component
+        ReactDOM.render(
+            <ImdbDownload data={data} />,
+            document.getElementById(main.id)
+        );
+    })
 
 
     /*fetchMovie(imdbCode)

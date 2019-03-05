@@ -9,14 +9,26 @@ div#imdb-movie-downloader {
     #imd-action-button {
         text-align: center;
         text-transform: uppercase;
-        background: linear-gradient(to right, rgb(142, 134, 132) 0%, rgb(27, 26, 26) 100%);
+        background: #333;
         color: white;
         font-weight: 800;
         padding: 10px;
         cursor: pointer;
+        border: 1px solid white;
     }
 
     #imd-torrent-container {
-        display: none;
+        .imd-torrent-element {
+            background: white;
+            padding: 10px 0 10px 0;
+            margin-bottom: 10px;
+            color: black;
+            border: 1px solid black;
+            a {
+                display: block;
+                color: black;
+                font-weight: bold;
+            }
+        }        
     }
 }

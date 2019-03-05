@@ -31,7 +31,8 @@ module.exports = {
     },
     plugins: [
         new CopyPlugin([
-            { from: 'manifest.json', to: 'manifest.json' }
+            { from: 'manifest.json', to: 'manifest.json' },
+            { from: 'img', to: 'img' }
         ]),
     ]
 }

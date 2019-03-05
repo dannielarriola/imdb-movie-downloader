@@ -1,15 +1,33 @@
 {
-    "name": "IMDB movie downloader",
-    "version": "1.0",
-    "description": "Add download button to IMDB movies pages",
-    "content_scripts": [
-        {
-          "matches": ["https://*.imdb.com/title/*"],
-          "js": ["imdb-movie-downloader.js"]
-        }
-    ],
-    "permissions": [
-      "https://yts.am/api/*"
-    ],
-    "manifest_version": 2
+  "name": "IMDB movie downloader",
+  "version": "1.0",
+  "description": "Add download button to IMDB movies pages",
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.imdb.com/title/*"
+      ],
+      "js": [
+        "imdb-movie-downloader.js"
+      ]
+    }
+  ],
+  "permissions": [
+    "https://yts.am/api/*"
+  ],
+  "page_action": {
+    "default_icon": {
+      "16": "img/imdb16.png",
+      "32": "img/imdb32.png",
+      "48": "img/imdb48.png",
+      "128": "img/imdb128.png"
+    }
+  },
+  "icons": {
+    "16": "img/imdb16.png",
+    "32": "img/imdb32.png",
+    "48": "img/imdb48.png",
+    "128": "img/imdb128.png"
+  },
+  "manifest_version": 2
 }
