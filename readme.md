@@ -1,3 +1,3 @@
 # IMDB Movie Downloader
 
-> Chorme Extension
+## [Chorme Extension](https://chrome.google.com/webstore/detail/imdb-movie-downloader/lafejbimjmpajllcbegflmialceoacib)
