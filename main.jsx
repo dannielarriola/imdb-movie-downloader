@@ -1,6 +1,5 @@
-
-import React, { useState } from 'react';
-import ReactDOM from 'react-dom';
+import React, { useState } from "react";
+import ReactDOM from "react-dom";
 import "./main.scss";
 
 /**
@@ -10,61 +9,55 @@ import "./main.scss";
  * @returns
  */
 function ImdbDownload(props) {
-    // React hooks
-    const [visible, setVisible] = useState(false);
+  // React hooks
+  const [visible, setVisible] = useState(false);
 
-    let torrents = <></>;
-    if (visible) {
-        torrents = props.data.torrents.map((torrent, index) => {
-            return (
-                <div className="imd-torrent-element" key={index}>
-                    <a href={torrent.url}>{getQuality(torrent.quality)}</a>
-                </div>
-            )
-        })
-    }
-
-    /**
-     * Return standard quality string
-     *
-     * @param {*} quality
-     */
-    function getQuality(quality) {
-        switch (quality) {
-            case "720p":
-                quality = "HD";
-                break;
-            case "1080p":
-                quality = "FULL HD"
-                break;        
-            default:
-                break;
-        }
-        return quality;
-    }
-
-    /**
-     * Show and hide links
-     */
-    function handleClick() {
-        setVisible(visible => !visible);
-    }
-
-    
-    return (
-        <div>
-            <div id="imd-torrent-container">
-                {torrents}
-            </div>
-            <div id="imd-action-button" onClick={handleClick}>
-                Download Movie
-            </div>
-            
+  let torrents = <></>;
+  if (visible) {
+    torrents = props.data.torrents.map((torrent, index) => {
+      return (
+        <div className="imd-torrent-element" key={index}>
+          <a href={torrent.url}>{getQuality(torrent.quality)}</a>
         </div>
-    );
+      );
+    });
+  }
+
+  /**
+   * Return standard quality string
+   *
+   * @param {*} quality
+   */
+  function getQuality(quality) {
+    switch (quality) {
+      case "720p":
+        quality = "HD";
+        break;
+      case "1080p":
+        quality = "FULL HD";
+        break;
+      default:
+        break;
+    }
+    return quality;
+  }
+
+  /**
+   * Show and hide links
+   */
+  function handleClick() {
+    setVisible((visible) => !visible);
+  }
+
+  return (
+    <div>
+      <div id="imd-torrent-container">{torrents}</div>
+      <div id="imd-action-button" onClick={handleClick}>
+        Download Movie
+      </div>
+    </div>
+  );
 }
-
-
 
 // Find imdb movie code
 let url = window.location.href;
@@ -72,25 +65,23 @@ let imdbTitle = url.match(/tt\d+\//);
 
 // check if url page contain imdb code
 if (imdbTitle) {
-    // Exact imdb code
-    let imdbCode = imdbTitle[0].substring(0, imdbTitle[0].length - 1);
+  // Exact imdb code
+  let imdbCode = imdbTitle[0].substring(0, imdbTitle[0].length - 1);
 
+  fetchMovie(imdbCode).then((data) => {
+    // Add main element
+    let main = document.createElement("div");
+    main.id = "imdb-movie-downloader";
+    document.body.appendChild(main);
 
-    fetchMovie(imdbCode).then((data) => {
-        // Add main element
-        let main = document.createElement("div");
-        main.id = "imdb-movie-downloader";
-        document.body.appendChild(main);
+    // render App component
+    ReactDOM.render(
+      <ImdbDownload data={data} />,
+      document.getElementById(main.id)
+    );
+  });
 
-        // render App component
-        ReactDOM.render(
-            <ImdbDownload data={data} />,
-            document.getElementById(main.id)
-        );
-    })
-
-
-    /*fetchMovie(imdbCode)
+  /*fetchMovie(imdbCode)
         .then((data) => {
             // Action button
             let actionButton = document.createElement("div");
@@ -123,8 +114,6 @@ if (imdbTitle) {
         })
         .catch((err) => console.error(err));
         */
-
-
 }
 
 /**
@@ -134,19 +123,25 @@ if (imdbTitle) {
  * @returns
  */
 function fetchMovie(imdbCode) {
-    return new Promise((resolve, reject) => {
-        fetch("https://yts.am/api/v2/list_movies.json?query_term=" + imdbCode)
-            .then((response) => {
-                if (response.status >= 300) {
-                    reject(response.statusText)
-                } else {
-                    response.json().then(function (data) {
-                        if (data.status === "ok") {
-                            resolve(data.data.movies[0])
-                        }
-                    }).catch((err) => reject(err))
+  return new Promise((resolve, reject) => {
+    fetch("https://yts.mx/api/v2/list_movies.json?query_term=" + imdbCode)
+      .then((response) => {
+        if (response.status >= 300) {
+          reject(response.statusText);
+        } else {
+          response
+            .json()
+            .then(function (data) {
+              if (data.status === "ok") {
+                if (data.data.movies) {
+                  resolve(data.data.movies[0]);
                 }
+              }
             })
-            .catch((e) => reject(e));
-    })
+            .catch((err) => reject(err));
+        }
+      })
+      .catch((e) => reject(e));
+  });
 }
+
